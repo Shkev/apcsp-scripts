@@ -1,0 +1,5 @@
+#!/bin/bash
+
+IPADDR=`hostname -I`
+str1=`$IPADDR %.*`
+echo $str1
