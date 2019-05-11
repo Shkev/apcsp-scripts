@@ -1,3 +1,22 @@
-#!/bin/bash/
+#!/bin/bash
 
-ip=hostname -I
+IPADDR=`ipconfig getifaddr en1` #change to "hostname -I" on raspberry pi" \
+
+#to remove last bit of ip address \
+firstNum=`echo $IPADDR | cut -c 1`
+endIP=${IPADDR##$firstNum*.}
+rmIP=${IPADDR%$endIP}
+
+num=1
+until [ $num -gt 255 ]
+do
+  modIP="$rmIP$num"
+  if ping -c 1 -W 1 "$modIP" >/dev/null 2>&1; then
+    echo $modIP : alive
+    echo `host ipaddr $modIP`
+    echo " "
+  else
+    echo $modIP : down
+  fi
+  ((num++))
+done
