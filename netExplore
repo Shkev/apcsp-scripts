@@ -11,10 +11,12 @@ num=1
 until [ $num -gt 255 ]
 do
   modIP="$rmIP$num"
-  if ping -c 1 -W 0.5 "$modIP" >/dev/null 2>&1; then
+  if ping -c 1 -W 1 "$modIP" >/dev/null 2>&1; then
     echo $modIP : alive
-    echo `host $modIP`
-    echo "MAC : `grep $modIP /proc/net/arp` | cut -d' ' -f4" 
+    host=`host $modIP | cut -d' ' -f5`
+    echo "host : $host"
+    MAC=`grep $modIP /proc/net/arp | cut -d' ' -f4` 
+    echo "MAC : $MAC"
     echo `nc -zv $modIP 20`
     echo `nc -zv $modIP 22`
     echo `nc -vz $modIP 25`
