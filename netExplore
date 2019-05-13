@@ -15,19 +15,16 @@ do
     echo $modIP : alive
     host=`host $modIP | cut -d' ' -f5`
     echo "host : $host"
-    MAC=`grep $modIP /proc/net/arp` | cut -d' ' -f4
-    echo "MAC : $MAC"
+    #echo `grep $modIP /proc/net/arp` | cut -d' ' -f4
     for port in 20 22 25 80
     do
-      if `nc -zv $modIP $port` >/dev/null 2>&1; then
+      if `nc -z $modIP $port` >/dev/null 2>&1; then
         echo "Port $port : Successful!"
       else
         echo "Port $port : Not available"
       fi
     done
     echo " "
-  else
-    echo "$modIP : dead"
   fi
 ((num++))
 done
