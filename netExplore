@@ -15,7 +15,9 @@ do
     echo $modIP : alive
     host=`host $modIP | cut -d' ' -f5`
     echo "host : $host"
-    #echo `grep $modIP /proc/net/arp` | cut -d' ' -f4
+    arpFile=`grep $modIP /proc/net/arp`
+    MAC=`echo $arpFile | cut -d' ' -f4`
+    echo MAC : $MAC
     for port in 20 22 25 80
     do
       if `nc -z $modIP $port` >/dev/null 2>&1; then
